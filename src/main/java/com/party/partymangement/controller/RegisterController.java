@@ -14,7 +14,7 @@ import com.party.partymangement.model.RegisterModel;
 import com.party.partymangement.service.RegisterService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200", "http://nggofish.s3-website.ap-south-1.amazonaws.com" })
+@CrossOrigin(origins = { "http://localhost:4200" })
 public class RegisterController {
 
 	@Autowired
