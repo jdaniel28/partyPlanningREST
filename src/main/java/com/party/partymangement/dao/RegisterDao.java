@@ -14,7 +14,15 @@ public class RegisterDao {
 
 	private final String SELECT = "select * from User;";
 	private final String LOGIN = "select password from user where userId = ? ";
-	private final String INSERT = "insert into User (firstName,lastName,dOB,gender,contactNumber,userId,password) values(?,?,?,?,?,?,?);";
+	// private final String INSERT = "insert into User
+	// (firstName,lastName,dOB,gender,contactNumber,userId,password)
+	// values(?,?,?,?,?,?,?);";
+	private final String USERID = "select userid from Forget_User where ans1 =? and ans2=? and ans3=? ";
+	private final String FORGOT_PASSWORD = "select userid from Forget_User where userId = ? and ans1 = ? and ans2 = ? and ans3 = ?;";
+	private final String INSERT = "insert into User (firstName,lastName,dOB,gender,contactNumber,userId,password, role) values(?,?,?,?,?,?,?,?);";
+	private final String INSERT_ANS = "insert into Forget_User (userid,ans1,ans2,ans3) values(?,?,?,?);";
+	private final String UPDATE_PASSWORD = "update User set password=? where userId=? ";
+	private final String GET_ROLE = "select role from User where userId = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -23,27 +31,74 @@ public class RegisterDao {
 		return jdbcTemplate.query(SELECT, new RegisterMapper());
 	}
 
-	public boolean insertUser(RegisterModel user) {
-		java.sql.Date date = new java.sql.Date(user.getDob().getTime());
-		if (jdbcTemplate.update(INSERT, user.getFirstName(), user.getLastName(), date, user.getGender(),
-				user.getContactNumber(), user.getUserId(), user.getPassword()) != 0) {
+//	public boolean insertUser(RegisterModel user) {
+//		java.sql.Date date = new java.sql.Date(user.getDob().getTime());
+//		if (jdbcTemplate.update(INSERT, user.getFirstName(), user.getLastName(), date, user.getGender(),
+//				user.getContactNumber(), user.getUserId(), user.getPassword()) != 0) {
+//			return true;
+//		}
+//		return false;
+//	}
+
+	public boolean updatePassword(RegisterModel user) {
+		if (jdbcTemplate.update(UPDATE_PASSWORD, user.getPassword(), user.getUserId()) != 0) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean checkLogin(RegisterModel user) {
-		boolean loggedIn;
+	public boolean insertUser(RegisterModel user) {
+		java.sql.Date date = new java.sql.Date(user.getDob().getTime());
+		boolean user_table = (jdbcTemplate.update(INSERT, user.getFirstName(), user.getLastName(), date,
+				user.getGender(), user.getContactNumber(), user.getUserId(), user.getPassword(), "user") != 0);
+		boolean user_security_ans = (jdbcTemplate.update(INSERT_ANS, user.getUserId(), user.getAns1(), user.getAns2(),
+				user.getAns3()) != 0);
+		if (user_table && user_security_ans) {
+			return true;
+		}
+		return false;
+	}
+
+	public String checkLogin(RegisterModel user) {
+		String loginStatus;
 		try {
 			String password = this.jdbcTemplate.queryForObject(LOGIN, String.class, new Object[] { user.getUserId() });
 			if (password.equals(user.getPassword())) {
-				loggedIn = true;
+				loginStatus = "Logged In";
+				String role = this.jdbcTemplate.queryForObject(GET_ROLE, String.class,
+						new Object[] { user.getUserId() });
+				loginStatus += role;
+				System.out.println(loginStatus);
 			} else {
-				loggedIn = false;
+				loginStatus = "Password";
 			}
 		} catch (Exception e) {
-			loggedIn = false;
+			loginStatus = "UserId";
 		}
-		return loggedIn;
+		return loginStatus;
+	}
+
+	public String userId(RegisterModel user) {
+		String userId = "";
+		try {
+			userId = this.jdbcTemplate.queryForObject(USERID, String.class,
+					new Object[] { user.getAns1(), user.getAns2(), user.getAns3() });
+		} catch (Exception e) {
+
+		}
+
+		return userId;
+	}
+
+	public boolean forgotPassword(RegisterModel user) {
+		boolean status;
+		try {
+			this.jdbcTemplate.queryForObject(FORGOT_PASSWORD, String.class,
+					new Object[] { user.getUserId(), user.getAns1(), user.getAns2(), user.getAns3() });
+			status = true;
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
 	}
 }

@@ -1,5 +1,8 @@
 package com.party.partymangement.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +23,62 @@ public class RegisterController {
 	@Autowired
 	private RegisterService registerService;
 
-	@PutMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody RegisterModel model) {
-		if (this.registerService.checkLogin(model)) {
-			return new ResponseEntity<Object>(HttpStatus.OK);
+		String loginStatus = this.registerService.checkLogin(model);
+		if (loginStatus.equals("Password") || loginStatus.equals("UserId")) {
+			Map<String, String> message = new HashMap<String, String>();
+			message.put("role", loginStatus);
+			return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			String role = loginStatus.substring(9, loginStatus.length());
+			Map<String, String> message = new HashMap<String, String>();
+			message.put("role", role);
+			return new ResponseEntity<Object>(message, HttpStatus.OK);
+		}
+	}
+
+	@PutMapping("/Password")
+	public ResponseEntity<Object> Password(@RequestBody RegisterModel model) {
+		String userId = this.registerService.getUserId(model);
+		if (!userId.equals("")) {
+			Map<String, String> message = new HashMap<String, String>();
+			message.put("userId", userId);
+			return ResponseEntity.ok(message);
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@GetMapping("/User")
-	public ResponseEntity<Object> getAllCourses() {
+	public ResponseEntity<Object> getAllUsers() {
 		return ResponseEntity.ok(registerService.getAllUser());
+	}
+
+//	@PostMapping("/User")
+//	public ResponseEntity<Object> postStudent(@RequestBody RegisterModel model) {
+//		try {
+//			boolean status = registerService.postUser(model);
+//			if (!status) {
+//				throw new Exception();
+//			}
+//			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
+//		} catch (Exception e) {
+//			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+//		}
+//	}
+
+	@PutMapping("/UserPassword")
+	public ResponseEntity<Object> postPassword(@RequestBody RegisterModel model) {
+		try {
+			boolean status = registerService.postUserPassword(model);
+			if (!status) {
+				throw new Exception();
+			}
+			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PostMapping("/User")
@@ -43,6 +90,16 @@ public class RegisterController {
 			}
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/forgotPassword")
+	public ResponseEntity<Object> forgotPassword(@RequestBody RegisterModel model) {
+		boolean status = this.registerService.forgotPassword(model);
+		if (status) {
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		} else {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}

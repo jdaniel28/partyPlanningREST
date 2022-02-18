@@ -22,11 +22,20 @@ public class RegisterService {
 		return registerDao.insertUser(user);
 	}
 
-	public boolean checkLogin(RegisterModel user) {
-		if (this.registerDao.checkLogin(user)) {
-			return true;
-		}
-		return false;
+	public String checkLogin(RegisterModel user) {
+		return this.registerDao.checkLogin(user);
+	}
+
+	public String getUserId(RegisterModel user) {
+		return this.registerDao.userId(user);
+	}
+
+	public boolean forgotPassword(RegisterModel user) {
+		return this.registerDao.forgotPassword(user);
+	}
+
+	public boolean postUserPassword(RegisterModel user) {
+		return this.registerDao.updatePassword(user);
 	}
 
 }
