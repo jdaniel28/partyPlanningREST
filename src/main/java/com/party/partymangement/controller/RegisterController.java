@@ -1,20 +1,31 @@
 package com.party.partymangement.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.party.partymangement.model.RegisterModel;
 import com.party.partymangement.service.RegisterService;
+import com.party.partymangement.service.StorageService;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -22,6 +33,8 @@ public class RegisterController {
 
 	@Autowired
 	private RegisterService registerService;
+	
+
 
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody RegisterModel model) {
@@ -50,9 +63,9 @@ public class RegisterController {
 		}
 	}
 
-	@GetMapping("/User")
-	public ResponseEntity<Object> getAllUsers() {
-		return ResponseEntity.ok(registerService.getAllUser());
+	@GetMapping("/User/{userId}")
+	public ResponseEntity<Object> getUser(@PathVariable String userId) {
+		return ResponseEntity.ok(registerService.getUser(userId));
 	}
 
 //	@PostMapping("/User")
@@ -97,6 +110,31 @@ public class RegisterController {
 	@PutMapping("/forgotPassword")
 	public ResponseEntity<Object> forgotPassword(@RequestBody RegisterModel model) {
 		boolean status = this.registerService.forgotPassword(model);
+		if (status) {
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	///////////
+
+	@PutMapping("/uploadPhoto")
+	public ResponseEntity<Object> uploadPhotoUser(@RequestParam("photo") MultipartFile file, @RequestParam("userId") String userId)
+			{
+		boolean status = this.registerService.uploadPhotoUser(file, userId);
+		if (status) {
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+	}
+	
+	@PutMapping("/updateUser")
+	public ResponseEntity<Object> updateUser(@RequestBody RegisterModel model){
+		boolean status = this.registerService.updateUser(model);
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {

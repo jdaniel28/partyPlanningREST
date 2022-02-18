@@ -1,7 +1,5 @@
 package com.party.partymangement.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,7 @@ import com.party.partymangement.model.RegisterModel;
 @Repository
 public class RegisterDao {
 
-	private final String SELECT = "select * from User;";
+	private final String SELECT = "select * from User where userId = ?;";
 	private final String LOGIN = "select password from user where userId = ? ";
 	// private final String INSERT = "insert into User
 	// (firstName,lastName,dOB,gender,contactNumber,userId,password)
@@ -23,12 +21,14 @@ public class RegisterDao {
 	private final String INSERT_ANS = "insert into Forget_User (userid,ans1,ans2,ans3) values(?,?,?,?);";
 	private final String UPDATE_PASSWORD = "update User set password=? where userId=? ";
 	private final String GET_ROLE = "select role from User where userId = ?";
+	private final String UPDATE_PHOTO = "update User set photoName = ? where userId = ?";
+	private final String UPDATE_USER = "update User set firstName = ?, lastName=?,dOB=?,gender=?,contactNumber=? where userId=?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<RegisterModel> getAllUsers() {
-		return jdbcTemplate.query(SELECT, new RegisterMapper());
+	public RegisterModel getUser(String userId) {
+		return jdbcTemplate.queryForObject(SELECT, new RegisterMapper(), new Object[] { userId });
 	}
 
 //	public boolean insertUser(RegisterModel user) {
@@ -101,4 +101,13 @@ public class RegisterDao {
 		}
 		return status;
 	}
+
+	public boolean uploadPhotoUser(RegisterModel user) {
+		return this.jdbcTemplate.update(UPDATE_PHOTO, user.getPhotoName(), user.getUserId()) != 0;
+	}
+
+	public boolean updateUser(RegisterModel user) {
+		return this.jdbcTemplate.update(UPDATE_USER,user.getFirstName(),user.getLastName(),user.getDob(),user.getGender(),user.getContactNumber(),user.getUserId()) !=0;
+	}
+	
 }

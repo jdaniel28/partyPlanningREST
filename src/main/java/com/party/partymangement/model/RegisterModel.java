@@ -11,10 +11,21 @@ public class RegisterModel {
 	private String contactNumber;
 	private String userId;
 	private String password;
-
+	private String photoName;
+	
 	private String ans1;
 	private String ans2;
 	private String ans3;
+
+
+
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
 
 	public String getAns1() {
 		return ans1;
