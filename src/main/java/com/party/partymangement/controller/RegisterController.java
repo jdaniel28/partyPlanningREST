@@ -1,14 +1,7 @@
 package com.party.partymangement.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.party.partymangement.model.RegisterModel;
 import com.party.partymangement.service.RegisterService;
-import com.party.partymangement.service.StorageService;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -51,7 +43,7 @@ public class RegisterController {
 		}
 	}
 
-	@PutMapping("/Password")
+	@PutMapping("/forgotUserId")
 	public ResponseEntity<Object> Password(@RequestBody RegisterModel model) {
 		String userId = this.registerService.getUserId(model);
 		if (!userId.equals("")) {
@@ -68,18 +60,6 @@ public class RegisterController {
 		return ResponseEntity.ok(registerService.getUser(userId));
 	}
 
-//	@PostMapping("/User")
-//	public ResponseEntity<Object> postStudent(@RequestBody RegisterModel model) {
-//		try {
-//			boolean status = registerService.postUser(model);
-//			if (!status) {
-//				throw new Exception();
-//			}
-//			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-//		}
-//	}
 
 	@PutMapping("/UserPassword")
 	public ResponseEntity<Object> postPassword(@RequestBody RegisterModel model) {

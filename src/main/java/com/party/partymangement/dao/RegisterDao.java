@@ -68,7 +68,6 @@ public class RegisterDao {
 				String role = this.jdbcTemplate.queryForObject(GET_ROLE, String.class,
 						new Object[] { user.getUserId() });
 				loginStatus += role;
-				System.out.println(loginStatus);
 			} else {
 				loginStatus = "Password";
 			}

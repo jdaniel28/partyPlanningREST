@@ -6,10 +6,36 @@ public class VenueModel {
 
 	private String venueId;
 	private String venueName;
+	private String venueDescription;
 	private String venueType;
+	private String photoName;
 	
 	
 	
+	public String getVenueDescription() {
+		return venueDescription;
+	}
+
+
+
+	public void setVenueDescription(String venueDescription) {
+		this.venueDescription = venueDescription;
+	}
+
+
+
+	public String getPhotoName() {
+		return photoName;
+	}
+
+
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
+
+
+
 	public VenueModel() {
 		super();
 		// TODO Auto-generated constructor stub

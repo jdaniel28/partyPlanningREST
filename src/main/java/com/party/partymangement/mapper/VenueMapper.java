@@ -16,6 +16,8 @@ public class VenueMapper implements RowMapper<VenueModel> {
 		venue.setVenueId(resultSet.getString("venueId"));
 		venue.setVenueName(resultSet.getString("venueName"));
 		venue.setVenueType(resultSet.getString("venueType"));
+		venue.setVenueDescription(resultSet.getString("venueDesc"));
+		venue.setPhotoName("https://partyplanning.s3.ap-south-1.amazonaws.com/"+resultSet.getString("photoName"));
 		return venue;
 
 }
