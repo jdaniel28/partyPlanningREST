@@ -25,8 +25,6 @@ public class RegisterController {
 
 	@Autowired
 	private RegisterService registerService;
-	
-
 
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody RegisterModel model) {
@@ -59,7 +57,6 @@ public class RegisterController {
 	public ResponseEntity<Object> getUser(@PathVariable String userId) {
 		return ResponseEntity.ok(registerService.getUser(userId));
 	}
-
 
 	@PutMapping("/UserPassword")
 	public ResponseEntity<Object> postPassword(@RequestBody RegisterModel model) {
@@ -100,20 +97,18 @@ public class RegisterController {
 	///////////
 
 	@PutMapping("/uploadPhoto")
-	public ResponseEntity<Object> uploadPhotoUser(@RequestParam("photo") MultipartFile file, @RequestParam("userId") String userId)
-			{
+	public ResponseEntity<Object> uploadPhotoUser(@RequestParam("photo") MultipartFile file,
+			@RequestParam("userId") String userId) {
 		boolean status = this.registerService.uploadPhotoUser(file, userId);
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
-		
-		
 	}
-	
+
 	@PutMapping("/updateUser")
-	public ResponseEntity<Object> updateUser(@RequestBody RegisterModel model){
+	public ResponseEntity<Object> updateUser(@RequestBody RegisterModel model) {
 		boolean status = this.registerService.updateUser(model);
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
