@@ -1,0 +1,2 @@
+create table schedule(venueId varchar(10), scheduleId varchar(10) primary key, startDate date, endDate date, facilities varchar(30), maxCapacity numeric, price double, foreign key(venueId) references Venue(venueId));
+insert into schedule value( "v02","s101",'1999-06-22','1999-06-23',"parking,open space",30,6000.00);
