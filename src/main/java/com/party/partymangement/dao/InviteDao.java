@@ -24,30 +24,30 @@ public class InviteDao {
 	private final static String GET_ALL_INV = "select * from invitation";
 
 	public boolean addInvite(InviteModel invite) {
-		LOGGER.debug("Start - addInvite");
+		LOGGER.info("Start - addInvite");
 		boolean status;
 		try {
 			status = this.jdbcTemplate.update(ADD_INVITE, invite.getPhotoName(), invite.getInviteText()) != 0;
 		} catch (Exception e) {
 			status = false;
 		}
-		LOGGER.debug("End - addInvite");
+		LOGGER.info("End - addInvite");
 		return status;
 	}
 
 	public int getLastId() {
-		LOGGER.debug("Start - getLastId");
+		LOGGER.info("Start - getLastId");
 		int id = 0;
 		try {
 			id = this.jdbcTemplate.queryForObject(GET_LAST_ID, Integer.class);
 		} catch (Exception e) {
 		}
-		LOGGER.debug("End - getLastId");
+		LOGGER.info("End - getLastId");
 		return id;
 	}
 
 	public List<InviteModel> getAllInvites() {
-		LOGGER.debug("Inside getAllInvites");
+		LOGGER.info("Inside getAllInvites");
 		return this.jdbcTemplate.query(GET_ALL_INV, new InviteMapper());
 
 	}

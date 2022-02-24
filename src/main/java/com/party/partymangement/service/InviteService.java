@@ -23,7 +23,7 @@ public class InviteService {
 	private StorageService storageService;
 
 	public boolean addInvite(MultipartFile file, InviteModel invite) {
-		LOGGER.debug("Start - addInvite");
+		LOGGER.info("Start - addInvite");
 		String fileName = file.getOriginalFilename();
 		int i;
 		for (i = 0; i < fileName.length(); i++) {
@@ -41,12 +41,12 @@ public class InviteService {
 
 		boolean status = this.inviteDao.addInvite(invite);
 		this.storageService.uploadFile(file, actualFileName);
-		LOGGER.debug("End - addInvite");
+		LOGGER.info("End - addInvite");
 		return status;
 	}
 
 	public List<InviteModel> getAllInvites() {
-		LOGGER.debug("Inside getAllInvites");
+		LOGGER.info("Inside getAllInvites");
 		return this.inviteDao.getAllInvites();
 	}
 

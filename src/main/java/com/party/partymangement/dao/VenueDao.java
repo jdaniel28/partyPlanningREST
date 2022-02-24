@@ -25,7 +25,7 @@ public class VenueDao {
 	private JdbcTemplate jdbcTemplate;
 
 	public boolean insertVenue(VenueModel venue) {
-		LOGGER.debug("Start - insertVenue");
+		LOGGER.info("Start - insertVenue");
 		boolean status;
 		if (jdbcTemplate.update(INSERT_VENUE, venue.getVenueName(), venue.getVenueType(), venue.getVenueDescription(),
 				venue.getPhotoName()) != 0) {
@@ -33,28 +33,28 @@ public class VenueDao {
 		} else {
 			status = false;
 		}
-		LOGGER.debug("End - insertVenue");
+		LOGGER.info("End - insertVenue");
 		return status;
 	}
 
 	public VenueModel getVenue(int venueId) {
-		LOGGER.debug("Inside getVenue");
+		LOGGER.info("Inside getVenue");
 		return jdbcTemplate.queryForObject(GET_VENUE, new VenueMapper(), venueId);
 	}
 
 	public List<VenueModel> getAllVenues() {
-		LOGGER.debug("Inside getAllVenues");
+		LOGGER.info("Inside getAllVenues");
 		return this.jdbcTemplate.query(GET_ALL_VENUES, new VenueMapper());
 	}
 
 	public int getLastId() {
-		LOGGER.debug("Start - getLastId");
+		LOGGER.info("Start - getLastId");
 		int index = 0;
 		try {
 			index = this.jdbcTemplate.queryForObject(GET_LAST_ID, Integer.class);
 		} catch (Exception e) {
 		}
-		LOGGER.debug("End - getLastId");
+		LOGGER.info("End - getLastId");
 		return index;
 	}
 

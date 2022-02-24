@@ -21,124 +21,179 @@ import org.springframework.web.multipart.MultipartFile;
 import com.party.partymangement.model.RegisterModel;
 import com.party.partymangement.service.RegisterService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RegisterController.
+ */
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class RegisterController {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterController.class);
 
+	/** The register service. */
 	@Autowired
 	private RegisterService registerService;
 
+	/**
+	 * Login.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - login");
+		LOGGER.info("Start - login");
 		String loginStatus = this.registerService.checkLogin(model);
 		if (loginStatus.equals("Password") || loginStatus.equals("UserId")) {
 			Map<String, String> message = new HashMap<String, String>();
 			message.put("role", loginStatus);
-			LOGGER.debug("End - login");
+			LOGGER.info("End - login");
 			return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
 		} else {
 			String role = loginStatus.substring(9, loginStatus.length());
 			Map<String, String> message = new HashMap<String, String>();
 			message.put("role", role);
-			LOGGER.debug("End - login");
+			LOGGER.info("End - login");
 			return new ResponseEntity<Object>(message, HttpStatus.OK);
 		}
 	}
 
+	/**
+	 * Forgot user id.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PutMapping("/forgotUserId")
 	public ResponseEntity<Object> forgotUserId(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - forgotUserId");
+		LOGGER.info("Start - forgotUserId");
 		String userId = this.registerService.getUserId(model);
 		if (!userId.equals("")) {
 			Map<String, String> message = new HashMap<String, String>();
 			message.put("userId", userId);
-			LOGGER.debug("End - forgotUserId");
+			LOGGER.info("End - forgotUserId");
 			return ResponseEntity.ok(message);
 		} else {
-			LOGGER.debug("End - forgotUserId");
+			LOGGER.info("End - forgotUserId");
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @param userId the user id
+	 * @return the user
+	 */
 	@GetMapping("/User/{userId}")
 	public ResponseEntity<Object> getUser(@PathVariable String userId) {
-		LOGGER.debug("Inside getUser");
+		LOGGER.info("Inside getUser");
 		return ResponseEntity.ok(registerService.getUser(userId));
 	}
 
+	/**
+	 * Post password.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PutMapping("/UserPassword")
 	public ResponseEntity<Object> postPassword(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - postPassword");
+		LOGGER.info("Start - postPassword");
 		try {
 			boolean status = registerService.postUserPassword(model);
 			if (!status) {
 				throw new Exception();
 			}
-			LOGGER.debug("End - postPassword");
+			LOGGER.info("End - postPassword");
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
-			LOGGER.debug("End - postPassword");
+			LOGGER.info("End - postPassword");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Post student.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PostMapping("/User")
 	public ResponseEntity<Object> postStudent(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - postStudent");
+		LOGGER.info("Start - postStudent");
 		try {
 			boolean status = registerService.postUser(model);
 			if (!status) {
 				throw new Exception();
 			}
-			LOGGER.debug("End - postStudent");
+			LOGGER.info("End - postStudent");
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
-			LOGGER.debug("End - postStudent");
+			LOGGER.info("End - postStudent");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Forgot password.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PutMapping("/forgotPassword")
 	public ResponseEntity<Object> forgotPassword(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - forgotPassword");
+		LOGGER.info("Start - forgotPassword");
 		boolean status = this.registerService.forgotPassword(model);
 		if (status) {
-			LOGGER.debug("End - forgotPassword");
+			LOGGER.info("End - forgotPassword");
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			LOGGER.debug("End - forgotPassword");
+			LOGGER.info("End - forgotPassword");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	///////////
 
+	/**
+	 * Upload photo user.
+	 *
+	 * @param file   the file
+	 * @param userId the user id
+	 * @return the response entity
+	 */
 	@PutMapping("/uploadPhoto")
 	public ResponseEntity<Object> uploadPhotoUser(@RequestParam("photo") MultipartFile file,
 			@RequestParam("userId") String userId) {
-		LOGGER.debug("Start - uploadPhotoUser");
+		LOGGER.info("Start - uploadPhotoUser");
 		boolean status = this.registerService.uploadPhotoUser(file, userId);
 		if (status) {
-			LOGGER.debug("End - uploadPhotoUser");
+			LOGGER.info("End - uploadPhotoUser");
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			LOGGER.debug("End - uploadPhotoUser");
+			LOGGER.info("End - uploadPhotoUser");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Update user.
+	 *
+	 * @param model the model
+	 * @return the response entity
+	 */
 	@PutMapping("/updateUser")
 	public ResponseEntity<Object> updateUser(@RequestBody RegisterModel model) {
-		LOGGER.debug("Start - updateUser");
+		LOGGER.info("Start - updateUser");
 		boolean status = this.registerService.updateUser(model);
 		if (status) {
-			LOGGER.debug("End - updateUser");
+			LOGGER.info("End - updateUser");
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			LOGGER.debug("End - updateUser");
+			LOGGER.info("End - updateUser");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}

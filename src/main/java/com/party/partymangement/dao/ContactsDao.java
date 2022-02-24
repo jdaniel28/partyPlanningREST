@@ -23,13 +23,14 @@ public class ContactsDao {
 	private static final String GET_CONTACTS = "select * from contacts where userId = ?";
 
 	public List<ContactsModel> getContactsForUser(String userId) {
-		LOGGER.debug("Start - getContactsForUser");
+		LOGGER.info("Start - getContactsForUser");
 		List<ContactsModel> contacts = new ArrayList<ContactsModel>();
 		try {
 			contacts = this.jdbcTemplate.query(GET_CONTACTS, new ContactsMapper(), userId);
 		} catch (Exception e) {
+			LOGGER.error("Data access exception");
 		}
-		LOGGER.debug("End - getContactsForUser");
+		LOGGER.info("End - getContactsForUser");
 		return contacts;
 	}
 

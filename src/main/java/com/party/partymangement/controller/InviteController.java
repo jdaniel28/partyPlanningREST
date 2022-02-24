@@ -27,22 +27,22 @@ public class InviteController {
 	@PostMapping("/addInvite")
 	public ResponseEntity<Object> addInvite(@RequestParam("photo") MultipartFile file,
 			@RequestParam("inviteText") String inviteText) {
-		LOGGER.debug("Start - addInvite");
+		LOGGER.info("Start - addInvite");
 		InviteModel invite = new InviteModel();
 		invite.setInviteText(inviteText);
 		boolean status = this.inviteService.addInvite(file, invite);
 		if (status) {
-			LOGGER.debug("End - addInvite");
+			LOGGER.info("End - addInvite");
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} else {
-			LOGGER.debug("End - addInvite");
+			LOGGER.info("End - addInvite");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/getInvites")
 	public ResponseEntity<Object> getAllInvites() {
-		LOGGER.debug("Inside getAllInvites");
+		LOGGER.info("Inside getAllInvites");
 		return new ResponseEntity<Object>(this.inviteService.getAllInvites(), HttpStatus.OK);
 	}
 

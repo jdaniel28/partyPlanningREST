@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.party.partymangement.dao.BookingDao;
 import com.party.partymangement.model.BookingModel;
+import com.party.partymangement.model.BookingScheduleModel;
+import com.party.partymangement.model.ScheduleModel;
 
 @Service
 public class BookingService {
@@ -14,8 +16,11 @@ public class BookingService {
 	@Autowired
 	private BookingDao bookingDao;
 
-	public boolean addBooking(BookingModel booking) {
-		return this.bookingDao.addBooking(booking);
+	public int addBooking(BookingModel booking) {
+		if (this.bookingDao.addBooking(booking)) {
+			return this.bookingDao.getBookingId();
+		}
+		return 0;
 	}
 
 	public boolean approveBooking(BookingModel booking) {
@@ -27,5 +32,17 @@ public class BookingService {
 
 	public List<BookingModel> getAllTempBookings() {
 		return this.bookingDao.getAllTempBookings();
+	}
+
+	public List<BookingModel> getAllConfirmedBookings() {
+		return this.bookingDao.getAllConfirmedBookings();
+	}
+
+	public List<BookingScheduleModel> getAllBookingSchedules() {
+		return this.bookingDao.getAllBookingScheduleModels();
+	}
+
+	public List<BookingScheduleModel> getAllBookingSchedulesByDate(ScheduleModel schedule) {
+		return this.bookingDao.getAllBookingScheduleModelsByDate(schedule);
 	}
 }

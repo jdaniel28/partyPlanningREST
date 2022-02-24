@@ -24,7 +24,7 @@ public class VenueService {
 	private StorageService storageService;
 
 	public boolean postVenue(MultipartFile file, VenueModel venue) {
-		LOGGER.debug("Start - postVenue");
+		LOGGER.info("Start - postVenue");
 		String fileName = file.getOriginalFilename();
 		int i;
 		for (i = 0; i < fileName.length(); i++) {
@@ -42,17 +42,17 @@ public class VenueService {
 
 		boolean status = venueDao.insertVenue(venue);
 		this.storageService.uploadFile(file, actualFileName);
-		LOGGER.debug("End - postVenue");
+		LOGGER.info("End - postVenue");
 		return status;
 	}
 
 	public VenueModel getVenue(String venueId) {
-		LOGGER.debug("Inside getVenue");
+		LOGGER.info("Inside getVenue");
 		return this.venueDao.getVenue(Util.convertIdToInt(venueId));
 	}
 
 	public List<VenueModel> getAllVenues() {
-		LOGGER.debug("Inside getAllVenues");
+		LOGGER.info("Inside getAllVenues");
 		return this.venueDao.getAllVenues();
 	}
 }

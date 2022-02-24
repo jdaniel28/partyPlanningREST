@@ -1,19 +1,15 @@
 package com.party.partymangement.model;
 
-public class BookingModel {
+import java.util.Date;
+
+public class BookingScheduleModel {
 
 	private int bookingId;
 	private String userId;
 	private String scheduleId;
-	private int numSeats;
-
-	public int getNumSeats() {
-		return numSeats;
-	}
-
-	public void setNumSeats(int numSeats) {
-		this.numSeats = numSeats;
-	}
+	private Date startDate;
+	private Date endDate;
+	private double price;
 
 	public int getBookingId() {
 		return bookingId;
@@ -37,6 +33,30 @@ public class BookingModel {
 
 	public void setScheduleId(String scheduleId) {
 		this.scheduleId = scheduleId;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }

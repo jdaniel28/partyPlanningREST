@@ -21,37 +21,37 @@ public class RegisterService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterService.class);
 
 	public RegisterModel getUser(String userId) {
-		LOGGER.debug("Inside - getUser");
+		LOGGER.info("Inside - getUser");
 		return registerDao.getUser(userId);
 	}
 
 	public boolean postUser(RegisterModel user) {
-		LOGGER.debug("Inside - postUser");
+		LOGGER.info("Inside - postUser");
 		return registerDao.insertUser(user);
 	}
 
 	public String checkLogin(RegisterModel user) {
-		LOGGER.debug("Inside - checkLogin");
+		LOGGER.info("Inside - checkLogin");
 		return this.registerDao.checkLogin(user);
 	}
 
 	public String getUserId(RegisterModel user) {
-		LOGGER.debug("Inside - getUserId");
+		LOGGER.info("Inside - getUserId");
 		return this.registerDao.userId(user);
 	}
 
 	public boolean forgotPassword(RegisterModel user) {
-		LOGGER.debug("Inside - forgotPassword");
+		LOGGER.info("Inside - forgotPassword");
 		return this.registerDao.forgotPassword(user);
 	}
 
 	public boolean postUserPassword(RegisterModel user) {
-		LOGGER.debug("Inside - postUserPassword");
+		LOGGER.info("Inside - postUserPassword");
 		return this.registerDao.updatePassword(user);
 	}
 
 	public boolean uploadPhotoUser(MultipartFile file, String userId) {
-		LOGGER.debug("Start - uploadPhotoUser");
+		LOGGER.info("Start - uploadPhotoUser");
 		boolean status;
 		String fileName = file.getOriginalFilename();
 		int i;
@@ -72,12 +72,12 @@ public class RegisterService {
 		} else {
 			status = false;
 		}
-		LOGGER.debug("End - uploadPhotoUser");
+		LOGGER.info("End - uploadPhotoUser");
 		return status;
 	}
 
 	public boolean updateUser(RegisterModel user) {
-		LOGGER.debug("Inside - updateUser");
+		LOGGER.info("Inside - updateUser");
 		return this.registerDao.updateUser(user);
 	}
 

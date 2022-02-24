@@ -20,20 +20,35 @@ import org.springframework.web.multipart.MultipartFile;
 import com.party.partymangement.model.VenueModel;
 import com.party.partymangement.service.VenueService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VenueController.
+ */
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class VenueController {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(VenueController.class);
 
+	/** The venue service. */
 	@Autowired
 	private VenueService venueService;
 
+	/**
+	 * Post venue.
+	 *
+	 * @param file             the file
+	 * @param venueName        the venue name
+	 * @param venueType        the venue type
+	 * @param venueDescription the venue description
+	 * @return the response entity
+	 */
 	@PostMapping("/Venue")
 	public ResponseEntity<Object> postVenue(@RequestParam("photo") MultipartFile file,
 			@RequestParam("venueName") String venueName, @RequestParam("venueType") String venueType,
 			@RequestParam("venueDescription") String venueDescription) {
-		LOGGER.debug("Start - postVenue");
+		LOGGER.info("Start - postVenue");
 		VenueModel model = new VenueModel();
 		model.setVenueName(venueName);
 		model.setVenueType(venueType);
@@ -43,29 +58,40 @@ public class VenueController {
 			if (!status) {
 				throw new Exception();
 			}
-			LOGGER.debug("End - postVenue");
+			LOGGER.info("End - postVenue");
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			LOGGER.debug("End - postVenue");
+			LOGGER.info("End - postVenue");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Gets the venue.
+	 *
+	 * @param venueId the venue id
+	 * @return the venue
+	 */
 	@GetMapping("/Venue/{venueId}")
 	public ResponseEntity<Object> getVenue(@PathVariable String venueId) {
-		LOGGER.debug("Start - getVenue");
+		LOGGER.info("Start - getVenue");
 		VenueModel venue = this.venueService.getVenue(venueId);
 		Map<String, VenueModel> message = new HashMap<String, VenueModel>();
 		message.put(venueId, venue);
-		LOGGER.debug("End - getVenue");
+		LOGGER.info("End - getVenue");
 		return new ResponseEntity(message, HttpStatus.OK);
 	}
 
+	/**
+	 * Gets the all venues.
+	 *
+	 * @return the all venues
+	 */
 	@GetMapping("/Venues")
 	public ResponseEntity<Object> getAllVenues() {
-		LOGGER.debug("Start - getAllVenues");
+		LOGGER.info("Start - getAllVenues");
 		List<VenueModel> venues = this.venueService.getAllVenues();
-		LOGGER.debug("End - getAllVenues");
+		LOGGER.info("End - getAllVenues");
 		return new ResponseEntity(venues, HttpStatus.OK);
 	}
 

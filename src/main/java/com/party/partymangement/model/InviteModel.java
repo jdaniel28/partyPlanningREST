@@ -7,7 +7,7 @@ package com.party.partymangement.model;
 public class InviteModel {
 
 	/** The invite id. */
-	private String inviteId;
+	private String greetingId;
 
 	/** The photo name. */
 	private String photoName;
@@ -15,22 +15,17 @@ public class InviteModel {
 	/** The invite text. */
 	private String inviteText;
 
-	/**
-	 * Gets the invite id.
-	 *
-	 * @return the invite id
-	 */
-	public String getInviteId() {
-		return inviteId;
+	public String getGreetingId() {
+		return greetingId;
 	}
 
 	/**
-	 * Sets the invite id.
+	 * Sets the greeting id.
 	 *
-	 * @param inviteId the new invite id
+	 * @param greetingId the new greeting id
 	 */
-	public void setInviteId(String inviteId) {
-		this.inviteId = inviteId;
+	public void setGreetingId(String greetingId) {
+		this.greetingId = greetingId;
 	}
 
 	/**
