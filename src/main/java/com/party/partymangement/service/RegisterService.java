@@ -1,10 +1,9 @@
 package com.party.partymangement.service;
 
-import java.io.File;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.party.partymangement.dao.RegisterDao;
@@ -15,35 +14,45 @@ public class RegisterService {
 
 	@Autowired
 	private RegisterDao registerDao;
-	
+
 	@Autowired
 	private StorageService storageService;
 
+	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterService.class);
+
 	public RegisterModel getUser(String userId) {
+		LOGGER.debug("Inside - getUser");
 		return registerDao.getUser(userId);
 	}
 
 	public boolean postUser(RegisterModel user) {
+		LOGGER.debug("Inside - postUser");
 		return registerDao.insertUser(user);
 	}
 
 	public String checkLogin(RegisterModel user) {
+		LOGGER.debug("Inside - checkLogin");
 		return this.registerDao.checkLogin(user);
 	}
 
 	public String getUserId(RegisterModel user) {
+		LOGGER.debug("Inside - getUserId");
 		return this.registerDao.userId(user);
 	}
 
 	public boolean forgotPassword(RegisterModel user) {
+		LOGGER.debug("Inside - forgotPassword");
 		return this.registerDao.forgotPassword(user);
 	}
 
 	public boolean postUserPassword(RegisterModel user) {
+		LOGGER.debug("Inside - postUserPassword");
 		return this.registerDao.updatePassword(user);
 	}
 
-	public boolean uploadPhotoUser(MultipartFile file,  String userId) {
+	public boolean uploadPhotoUser(MultipartFile file, String userId) {
+		LOGGER.debug("Start - uploadPhotoUser");
+		boolean status;
 		String fileName = file.getOriginalFilename();
 		int i;
 		for (i = 0; i < fileName.length(); i++) {
@@ -52,22 +61,23 @@ public class RegisterService {
 			}
 		}
 		String fileExtenstion = fileName.substring(i, fileName.length());
-		String actualFileName = "u_"+userId + fileExtenstion;
-		
-		
+		String actualFileName = "u_" + userId + fileExtenstion;
+
 		RegisterModel user = new RegisterModel();
 		user.setUserId(userId);
 		user.setPhotoName(actualFileName);
-		if(this.registerDao.uploadPhotoUser(user)) {
+		if (this.registerDao.uploadPhotoUser(user)) {
 			this.storageService.uploadFile(file, actualFileName);
-			return true;
+			status = true;
+		} else {
+			status = false;
 		}
-		
-		
-		return false;
+		LOGGER.debug("End - uploadPhotoUser");
+		return status;
 	}
-	
+
 	public boolean updateUser(RegisterModel user) {
+		LOGGER.debug("Inside - updateUser");
 		return this.registerDao.updateUser(user);
 	}
 

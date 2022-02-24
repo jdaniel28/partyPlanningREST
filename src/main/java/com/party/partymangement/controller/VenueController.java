@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +24,17 @@ import com.party.partymangement.service.VenueService;
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class VenueController {
 
+	private final static Logger LOGGER = LoggerFactory.getLogger(VenueController.class);
+
 	@Autowired
 	private VenueService venueService;
 
 	@PostMapping("/Venue")
 	public ResponseEntity<Object> postVenue(@RequestParam("photo") MultipartFile file,
-			@RequestParam("venueId") String venueId, @RequestParam("venueName") String venueName,
-			@RequestParam("venueType") String venueType, @RequestParam("venueDescription") String venueDescription) {
+			@RequestParam("venueName") String venueName, @RequestParam("venueType") String venueType,
+			@RequestParam("venueDescription") String venueDescription) {
+		LOGGER.debug("Start - postVenue");
 		VenueModel model = new VenueModel();
-		model.setVenueId(venueId);
 		model.setVenueName(venueName);
 		model.setVenueType(venueType);
 		model.setVenueDescription(venueDescription);
@@ -39,25 +43,29 @@ public class VenueController {
 			if (!status) {
 				throw new Exception();
 			}
-			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
+			LOGGER.debug("End - postVenue");
+			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
+			LOGGER.debug("End - postVenue");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/Venue/{venueId}")
 	public ResponseEntity<Object> getVenue(@PathVariable String venueId) {
+		LOGGER.debug("Start - getVenue");
 		VenueModel venue = this.venueService.getVenue(venueId);
 		Map<String, VenueModel> message = new HashMap<String, VenueModel>();
 		message.put(venueId, venue);
+		LOGGER.debug("End - getVenue");
 		return new ResponseEntity(message, HttpStatus.OK);
 	}
 
 	@GetMapping("/Venues")
 	public ResponseEntity<Object> getAllVenues() {
-
+		LOGGER.debug("Start - getAllVenues");
 		List<VenueModel> venues = this.venueService.getAllVenues();
-
+		LOGGER.debug("End - getAllVenues");
 		return new ResponseEntity(venues, HttpStatus.OK);
 	}
 

@@ -1,5 +1,7 @@
 package com.party.partymangement.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,8 @@ import com.party.partymangement.model.RegisterModel;
 
 @Repository
 public class RegisterDao {
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterDao.class);
 
 	private final String SELECT = "select * from User where userId = ?;";
 	private final String LOGIN = "select password from user where userId = ? ";
@@ -28,6 +32,7 @@ public class RegisterDao {
 	private JdbcTemplate jdbcTemplate;
 
 	public RegisterModel getUser(String userId) {
+		LOGGER.debug("Inside - getUser");
 		return jdbcTemplate.queryForObject(SELECT, new RegisterMapper(), new Object[] { userId });
 	}
 
@@ -41,25 +46,36 @@ public class RegisterDao {
 //	}
 
 	public boolean updatePassword(RegisterModel user) {
+		LOGGER.debug("Start - updatePassword");
+		boolean status;
 		if (jdbcTemplate.update(UPDATE_PASSWORD, user.getPassword(), user.getUserId()) != 0) {
-			return true;
+			status = true;
+		} else {
+			status = false;
 		}
-		return false;
+		LOGGER.debug("End - updatePassword");
+		return status;
 	}
 
 	public boolean insertUser(RegisterModel user) {
+		LOGGER.debug("Start - insertUser");
+		boolean status;
 		java.sql.Date date = new java.sql.Date(user.getDob().getTime());
 		boolean user_table = (jdbcTemplate.update(INSERT, user.getFirstName(), user.getLastName(), date,
 				user.getGender(), user.getContactNumber(), user.getUserId(), user.getPassword(), "user") != 0);
 		boolean user_security_ans = (jdbcTemplate.update(INSERT_ANS, user.getUserId(), user.getAns1(), user.getAns2(),
 				user.getAns3()) != 0);
 		if (user_table && user_security_ans) {
-			return true;
+			status = true;
+		} else {
+			status = false;
 		}
-		return false;
+		LOGGER.debug("End - updatePassword");
+		return status;
 	}
 
 	public String checkLogin(RegisterModel user) {
+		LOGGER.debug("Start - checkLogin");
 		String loginStatus;
 		try {
 			String password = this.jdbcTemplate.queryForObject(LOGIN, String.class, new Object[] { user.getUserId() });
@@ -74,10 +90,12 @@ public class RegisterDao {
 		} catch (Exception e) {
 			loginStatus = "UserId";
 		}
+		LOGGER.debug("End - checkLogin");
 		return loginStatus;
 	}
 
 	public String userId(RegisterModel user) {
+		LOGGER.debug("Start - userId");
 		String userId = "";
 		try {
 			userId = this.jdbcTemplate.queryForObject(USERID, String.class,
@@ -85,11 +103,12 @@ public class RegisterDao {
 		} catch (Exception e) {
 
 		}
-
+		LOGGER.debug("End - userId");
 		return userId;
 	}
 
 	public boolean forgotPassword(RegisterModel user) {
+		LOGGER.debug("Start - forgotPassword");
 		boolean status;
 		try {
 			this.jdbcTemplate.queryForObject(FORGOT_PASSWORD, String.class,
@@ -98,15 +117,19 @@ public class RegisterDao {
 		} catch (Exception e) {
 			status = false;
 		}
+		LOGGER.debug("End - forgotPassword");
 		return status;
 	}
 
 	public boolean uploadPhotoUser(RegisterModel user) {
+		LOGGER.debug("Inside - uploadPhotoUser");
 		return this.jdbcTemplate.update(UPDATE_PHOTO, user.getPhotoName(), user.getUserId()) != 0;
 	}
 
 	public boolean updateUser(RegisterModel user) {
-		return this.jdbcTemplate.update(UPDATE_USER,user.getFirstName(),user.getLastName(),user.getDob(),user.getGender(),user.getContactNumber(),user.getUserId()) !=0;
+		LOGGER.debug("Inside - updateUser");
+		return this.jdbcTemplate.update(UPDATE_USER, user.getFirstName(), user.getLastName(), user.getDob(),
+				user.getGender(), user.getContactNumber(), user.getUserId()) != 0;
 	}
-	
+
 }
