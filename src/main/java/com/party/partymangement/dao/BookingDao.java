@@ -2,6 +2,8 @@ package com.party.partymangement.dao;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,8 @@ public class BookingDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(BookingDao.class);
 
 	private static final String GET_CONFIRMED = "select * from bookings";
 	private static final String GET_BOOKING_SCHEDULES = "select b.bookingId, b.userId, s.scheduleId, s.startDate, s.endDate,s.price from bookings as b join schedule as s on b.scheduleId = s.scheduleId;";

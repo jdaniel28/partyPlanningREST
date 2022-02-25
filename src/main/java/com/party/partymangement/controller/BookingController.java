@@ -15,20 +15,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.BookingModel;
 import com.party.partymangement.model.BookingScheduleModel;
 import com.party.partymangement.model.ScheduleModel;
 import com.party.partymangement.service.BookingService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BookingController.
+ */
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class BookingController {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(BookingController.class);
 
+	/** The booking service. */
 	@Autowired
 	private BookingService bookingService;
 
+	/**
+	 * Gets the all temp bookings.
+	 *
+	 * @return the all temp bookings
+	 */
 	@GetMapping("/tempBookings")
 	public ResponseEntity<Object> getAllTempBookings() {
 		LOGGER.info("Start - getAllTempBookings");
@@ -37,6 +49,12 @@ public class BookingController {
 		return new ResponseEntity<Object>(tempBookings, HttpStatus.OK);
 	}
 
+	/**
+	 * Adds the booking.
+	 *
+	 * @param booking the booking
+	 * @return the response entity
+	 */
 	@PostMapping("/addBooking")
 	public ResponseEntity<Object> addBooking(@RequestBody BookingModel booking) {
 		LOGGER.info("Start - addBooking");
@@ -47,10 +65,16 @@ public class BookingController {
 			LOGGER.info("End - addBooking");
 			return new ResponseEntity<Object>(message, HttpStatus.CREATED);
 		}
-		LOGGER.info("End - addBooking");
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		LOGGER.error("Failed to add booking - addBooking");
+		throw new ResourceNotFoundException("Failed to add booking");
 	}
 
+	/**
+	 * Approve booking.
+	 *
+	 * @param booking the booking
+	 * @return the response entity
+	 */
 	@PostMapping("/approveBooking")
 	public ResponseEntity<Object> approveBooking(@RequestBody BookingModel booking) {
 		LOGGER.info("Start - approveBookings");
@@ -62,6 +86,11 @@ public class BookingController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 
+	/**
+	 * Gets the all confirmed bookings.
+	 *
+	 * @return the all confirmed bookings
+	 */
 	@GetMapping("/confirmedBookings")
 	public ResponseEntity<Object> getAllConfirmedBookings() {
 		LOGGER.info("Start - getAllConfirmedBookings");
@@ -70,12 +99,23 @@ public class BookingController {
 		return new ResponseEntity<Object>(tempBookings, HttpStatus.OK);
 	}
 
+	/**
+	 * Gets the all booking schedules.
+	 *
+	 * @return the all booking schedules
+	 */
 	@GetMapping("/getBookingSchedules")
 	public ResponseEntity<Object> getAllBookingSchedules() {
 		List<BookingScheduleModel> bookingSchedules = this.bookingService.getAllBookingSchedules();
 		return new ResponseEntity<Object>(bookingSchedules, HttpStatus.OK);
 	}
 
+	/**
+	 * Gets the booking schedules by date.
+	 *
+	 * @param model the model
+	 * @return the booking schedules by date
+	 */
 	@PostMapping("/bookingSchedules")
 	public ResponseEntity<Object> getBookingSchedulesByDate(@RequestBody ScheduleModel model) {
 		List<BookingScheduleModel> bookingSchedules = this.bookingService.getAllBookingSchedulesByDate(model);

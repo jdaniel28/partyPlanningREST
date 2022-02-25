@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.RegisterModel;
 import com.party.partymangement.service.RegisterService;
 
@@ -77,7 +78,8 @@ public class RegisterController {
 			return ResponseEntity.ok(message);
 		} else {
 			LOGGER.info("End - forgotUserId");
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+			throw new ResourceNotFoundException("User ID not found");
+//			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 	}
 
