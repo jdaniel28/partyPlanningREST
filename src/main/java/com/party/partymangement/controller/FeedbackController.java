@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.model.FeedBackQuestionsModel;
 import com.party.partymangement.model.FeedbackModel;
 import com.party.partymangement.service.FeedbackService;
 
@@ -36,4 +37,25 @@ public class FeedbackController {
 	public ResponseEntity<Object> getAllFeedback() {
 		return new ResponseEntity<Object>(this.feedbackService.getAllFeedback(), HttpStatus.OK);
 	}
+
+	@GetMapping("/feedbackQns")
+	public ResponseEntity<Object> getFeedbackQuestions() {
+		return new ResponseEntity<Object>(this.feedbackService.getFeedbackQuestions(), HttpStatus.OK);
+	}
+
+	@PostMapping("/feedbackQns")
+	public ResponseEntity<Object> addFeedbackQuestions(@RequestBody FeedBackQuestionsModel model) {
+		boolean status = this.feedbackService.addFeedbackQuestions(model);
+		if (status) {
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/getFeedbackWithQns")
+	public ResponseEntity<Object> getFeedbackWithQuestions() {
+		return new ResponseEntity<Object>(this.feedbackService.getFeedbackWithQuestions(), HttpStatus.OK);
+	}
+
 }

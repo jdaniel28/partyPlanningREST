@@ -20,6 +20,7 @@ public class FeedbackMapper implements RowMapper<FeedbackModel> {
 		feedback.setAns2(resultSet.getString("ans2"));
 		feedback.setAns3(resultSet.getString("ans3"));
 		feedback.setRating(resultSet.getString("rating"));
+		feedback.setqId(resultSet.getInt("qId"));
 		return feedback;
 
 	}

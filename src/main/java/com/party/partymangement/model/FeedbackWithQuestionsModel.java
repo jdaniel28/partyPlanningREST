@@ -1,7 +1,10 @@
 package com.party.partymangement.model;
 
-public class FeedbackModel {
-
+public class FeedbackWithQuestionsModel {
+	private int qId;
+	private String ques1;
+	private String ques2;
+	private String ques3;
 	private String feedbackId;
 	private String userId;
 	private int bookingId;
@@ -9,7 +12,6 @@ public class FeedbackModel {
 	private String ans2;
 	private String ans3;
 	private String rating;
-	private int qId;
 
 	public int getqId() {
 		return qId;
@@ -17,6 +19,30 @@ public class FeedbackModel {
 
 	public void setqId(int qId) {
 		this.qId = qId;
+	}
+
+	public String getQues1() {
+		return ques1;
+	}
+
+	public void setQues1(String ques1) {
+		this.ques1 = ques1;
+	}
+
+	public String getQues2() {
+		return ques2;
+	}
+
+	public void setQues2(String ques2) {
+		this.ques2 = ques2;
+	}
+
+	public String getQues3() {
+		return ques3;
+	}
+
+	public void setQues3(String ques3) {
+		this.ques3 = ques3;
 	}
 
 	public String getFeedbackId() {
@@ -74,10 +100,4 @@ public class FeedbackModel {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-
-	public FeedbackModel() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 }
