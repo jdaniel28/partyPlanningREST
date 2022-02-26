@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.InviteModel;
 import com.party.partymangement.service.InviteService;
 
@@ -36,7 +37,7 @@ public class InviteController {
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} else {
 			LOGGER.info("End - addInvite");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add invitation");
 		}
 	}
 

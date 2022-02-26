@@ -9,28 +9,58 @@ import org.springframework.stereotype.Repository;
 import com.party.partymangement.mapper.RegisterMapper;
 import com.party.partymangement.model.RegisterModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RegisterDao.
+ */
 @Repository
 public class RegisterDao {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterDao.class);
 
+	/** The select. */
 	private final String SELECT = "select * from User where userId = ?;";
+
+	/** The login. */
 	private final String LOGIN = "select password from user where userId = ? ";
 	// private final String INSERT = "insert into User
 	// (firstName,lastName,dOB,gender,contactNumber,userId,password)
+	/** The userid. */
 	// values(?,?,?,?,?,?,?);";
 	private final String USERID = "select userid from Forget_User where ans1 =? and ans2=? and ans3=? ";
+
+	/** The forgot password. */
 	private final String FORGOT_PASSWORD = "select userid from Forget_User where userId = ? and ans1 = ? and ans2 = ? and ans3 = ?;";
+
+	/** The insert. */
 	private final String INSERT = "insert into User (firstName,lastName,dOB,gender,contactNumber,userId,password, role) values(?,?,?,?,?,?,?,?);";
+
+	/** The insert ans. */
 	private final String INSERT_ANS = "insert into Forget_User (userid,ans1,ans2,ans3) values(?,?,?,?);";
+
+	/** The update password. */
 	private final String UPDATE_PASSWORD = "update User set password=? where userId=? ";
+
+	/** The get role. */
 	private final String GET_ROLE = "select role from User where userId = ?";
+
+	/** The update photo. */
 	private final String UPDATE_PHOTO = "update User set photoName = ? where userId = ?";
+
+	/** The update user. */
 	private final String UPDATE_USER = "update User set firstName = ?, lastName=?,dOB=?,gender=?,contactNumber=? where userId=?";
 
+	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	/**
+	 * Gets the user.
+	 *
+	 * @param userId the user id
+	 * @return the user
+	 */
 	public RegisterModel getUser(String userId) {
 		LOGGER.info("Inside - getUser");
 		return jdbcTemplate.queryForObject(SELECT, new RegisterMapper(), new Object[] { userId });
@@ -45,6 +75,12 @@ public class RegisterDao {
 //		return false;
 //	}
 
+	/**
+	 * Update password.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public boolean updatePassword(RegisterModel user) {
 		LOGGER.info("Start - updatePassword");
 		boolean status;
@@ -57,6 +93,12 @@ public class RegisterDao {
 		return status;
 	}
 
+	/**
+	 * Insert user.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public boolean insertUser(RegisterModel user) {
 		LOGGER.info("Start - insertUser");
 		boolean status;
@@ -74,6 +116,12 @@ public class RegisterDao {
 		return status;
 	}
 
+	/**
+	 * Check login.
+	 *
+	 * @param user the user
+	 * @return the string
+	 */
 	public String checkLogin(RegisterModel user) {
 		LOGGER.info("Start - checkLogin");
 		String loginStatus;
@@ -94,6 +142,12 @@ public class RegisterDao {
 		return loginStatus;
 	}
 
+	/**
+	 * User id.
+	 *
+	 * @param user the user
+	 * @return the string
+	 */
 	public String userId(RegisterModel user) {
 		LOGGER.info("Start - userId");
 		String userId = "";
@@ -107,6 +161,12 @@ public class RegisterDao {
 		return userId;
 	}
 
+	/**
+	 * Forgot password.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public boolean forgotPassword(RegisterModel user) {
 		LOGGER.info("Start - forgotPassword");
 		boolean status;
@@ -121,11 +181,23 @@ public class RegisterDao {
 		return status;
 	}
 
+	/**
+	 * Upload photo user.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public boolean uploadPhotoUser(RegisterModel user) {
 		LOGGER.info("Inside - uploadPhotoUser");
 		return this.jdbcTemplate.update(UPDATE_PHOTO, user.getPhotoName(), user.getUserId()) != 0;
 	}
 
+	/**
+	 * Update user.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public boolean updateUser(RegisterModel user) {
 		LOGGER.info("Inside - updateUser");
 		return this.jdbcTemplate.update(UPDATE_USER, user.getFirstName(), user.getLastName(), user.getDob(),

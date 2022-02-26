@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.VenueModel;
 import com.party.partymangement.service.VenueService;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class VenueController.
  */
@@ -62,7 +63,7 @@ public class VenueController {
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOGGER.info("End - postVenue");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add Venue Details");
 		}
 	}
 

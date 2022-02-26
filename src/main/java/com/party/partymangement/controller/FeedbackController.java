@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.FeedBackQuestionsModel;
 import com.party.partymangement.model.FeedbackModel;
 import com.party.partymangement.service.FeedbackService;
@@ -29,7 +30,7 @@ public class FeedbackController {
 			}
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add Feedback");
 		}
 	}
 
@@ -49,7 +50,7 @@ public class FeedbackController {
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add Questions to the feedback");
 		}
 	}
 

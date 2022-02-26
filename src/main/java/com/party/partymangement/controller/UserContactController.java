@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.UserContactModel;
 import com.party.partymangement.service.UserContactService;
 
@@ -33,7 +34,7 @@ public class UserContactController {
 			}
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add details to the User Contacts details");
 		}
 	}
 
@@ -51,7 +52,7 @@ public class UserContactController {
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to update the User Contact Details");
 		}
 	}
 
@@ -61,7 +62,7 @@ public class UserContactController {
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to delete User Contact Details");
 		}
 	}
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.InviteeDetailsModel;
 import com.party.partymangement.model.InviteeModel;
 import com.party.partymangement.service.InviteeService;
@@ -30,7 +31,7 @@ public class InviteeController {
 		if (status) {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to sent Invitation");
 		}
 	}
 
@@ -41,7 +42,7 @@ public class InviteeController {
 		if (invitees.size() != 0) {
 			return new ResponseEntity<Object>(invitees, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to get Invitees for Particular BookingId");
 		}
 	}
 
@@ -51,7 +52,7 @@ public class InviteeController {
 		if (invitees.size() != 0) {
 			return new ResponseEntity<Object>(invitees, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to get Invitees details");
 		}
 	}
 }

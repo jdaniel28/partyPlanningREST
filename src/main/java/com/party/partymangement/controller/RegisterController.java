@@ -50,8 +50,8 @@ public class RegisterController {
 		if (loginStatus.equals("Password") || loginStatus.equals("UserId")) {
 			Map<String, String> message = new HashMap<String, String>();
 			message.put("role", loginStatus);
-			LOGGER.info("End - login");
-			return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
+			LOGGER.error("End - login");
+			return new ResponseEntity<Object>(message, HttpStatus.NOT_FOUND);
 		} else {
 			String role = loginStatus.substring(9, loginStatus.length());
 			Map<String, String> message = new HashMap<String, String>();
@@ -79,7 +79,7 @@ public class RegisterController {
 		} else {
 			LOGGER.info("End - forgotUserId");
 			throw new ResourceNotFoundException("User ID not found");
-//			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+//			
 		}
 	}
 
@@ -113,7 +113,7 @@ public class RegisterController {
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOGGER.info("End - postPassword");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Error in Updating Password");
 		}
 	}
 
@@ -124,7 +124,7 @@ public class RegisterController {
 	 * @return the response entity
 	 */
 	@PostMapping("/User")
-	public ResponseEntity<Object> postStudent(@RequestBody RegisterModel model) {
+	public ResponseEntity<Object> postUser(@RequestBody RegisterModel model) {
 		LOGGER.info("Start - postStudent");
 		try {
 			boolean status = registerService.postUser(model);
@@ -135,7 +135,7 @@ public class RegisterController {
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOGGER.info("End - postStudent");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Error in inserting data to the user");
 		}
 	}
 
@@ -154,7 +154,7 @@ public class RegisterController {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
 			LOGGER.info("End - forgotPassword");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Password doesn't matches with previous data");
 		}
 	}
 
@@ -177,7 +177,7 @@ public class RegisterController {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
 			LOGGER.info("End - uploadPhotoUser");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Error in uploading image");
 		}
 	}
 
@@ -196,7 +196,7 @@ public class RegisterController {
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
 			LOGGER.info("End - updateUser");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Error in update user data");
 		}
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.party.partymangement.exception.ResourceNotFoundException;
 import com.party.partymangement.model.ScheduleModel;
 import com.party.partymangement.model.VenueScheduleModel;
 import com.party.partymangement.service.ScheduleService;
@@ -39,7 +40,7 @@ public class ScheduleController {
 			return new ResponseEntity<Object>(model, HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOGGER.info("End - postSchedule");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add scheludes");
 		}
 	}
 
@@ -58,15 +59,7 @@ public class ScheduleController {
 		LOGGER.info("End - getAllVenueSchedules");
 		return new ResponseEntity<Object>(venueSchedules, HttpStatus.OK);
 	}
-//
-//	@PostMapping("/VenueSchedules")
-//	public ResponseEntity<Object> getVenueSchedulesByDate(@RequestBody ScheduleModel schedule) {
-//		LOGGER.info("Start - getVenueSchedulesByDate");
-//		List<VenueScheduleModel> venueSchedules = this.scheduleService.getVenueSchedulesByDate(schedule.getStartDate(),
-//				schedule.getEndDate());
-//		LOGGER.info("End - getVenueSchedulesByDate");
-//		return new ResponseEntity<Object>(venueSchedules, HttpStatus.OK);
-//	}
+
 
 	@PostMapping("/schedulesByDate")
 	public ResponseEntity<Object> getSchedulesByDate(@RequestBody ScheduleModel model) {
@@ -75,7 +68,7 @@ public class ScheduleController {
 		if (schedules.size() != 0) {
 			return new ResponseEntity<Object>(schedules, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to add schelude for particular date");
 		}
 	}
 

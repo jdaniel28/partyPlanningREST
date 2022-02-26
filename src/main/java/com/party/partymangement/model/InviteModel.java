@@ -15,6 +15,17 @@ public class InviteModel {
 	/** The invite text. */
 	private String inviteText;
 
+	public InviteModel(String greetingId, String photoName, String inviteText) {
+		super();
+		this.greetingId = greetingId;
+		this.photoName = photoName;
+		this.inviteText = inviteText;
+	}
+
+	public InviteModel() {
+		super();
+	}
+
 	public String getGreetingId() {
 		return greetingId;
 	}

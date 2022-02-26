@@ -83,7 +83,7 @@ public class BookingController {
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		}
 		LOGGER.info("End - approveBookings");
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		throw new ResourceNotFoundException("Failed to approve the booking status");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class BookingController {
 		if (bookingSchedules.size() != 0) {
 			return new ResponseEntity<Object>(bookingSchedules, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException("Failed to book the schedule for the veneue");
 		}
 	}
 

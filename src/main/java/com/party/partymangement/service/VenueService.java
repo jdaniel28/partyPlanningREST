@@ -12,17 +12,31 @@ import com.party.partymanagement.util.Util;
 import com.party.partymangement.dao.VenueDao;
 import com.party.partymangement.model.VenueModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VenueService.
+ */
 @Service
 public class VenueService {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(VenueService.class);
 
+	/** The venue dao. */
 	@Autowired
 	private VenueDao venueDao;
 
+	/** The storage service. */
 	@Autowired
 	private StorageService storageService;
 
+	/**
+	 * Post venue.
+	 *
+	 * @param file  the file
+	 * @param venue the venue
+	 * @return true, if successful
+	 */
 	public boolean postVenue(MultipartFile file, VenueModel venue) {
 		LOGGER.info("Start - postVenue");
 		String fileName = file.getOriginalFilename();
@@ -46,11 +60,22 @@ public class VenueService {
 		return status;
 	}
 
+	/**
+	 * Gets the venue.
+	 *
+	 * @param venueId the venue id
+	 * @return the venue
+	 */
 	public VenueModel getVenue(String venueId) {
 		LOGGER.info("Inside getVenue");
 		return this.venueDao.getVenue(Util.convertIdToInt(venueId));
 	}
 
+	/**
+	 * Gets the all venues.
+	 *
+	 * @return the all venues
+	 */
 	public List<VenueModel> getAllVenues() {
 		LOGGER.info("Inside getAllVenues");
 		return this.venueDao.getAllVenues();

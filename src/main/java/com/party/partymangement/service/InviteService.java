@@ -11,17 +11,31 @@ import org.springframework.web.multipart.MultipartFile;
 import com.party.partymangement.dao.InviteDao;
 import com.party.partymangement.model.InviteModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InviteService.
+ */
 @Service
 public class InviteService {
 
+	/** The Constant LOGGER. */
 	private final static Logger LOGGER = LoggerFactory.getLogger(InviteService.class);
 
+	/** The invite dao. */
 	@Autowired
 	private InviteDao inviteDao;
 
+	/** The storage service. */
 	@Autowired
 	private StorageService storageService;
 
+	/**
+	 * Adds the invite.
+	 *
+	 * @param file   the file
+	 * @param invite the invite
+	 * @return true, if successful
+	 */
 	public boolean addInvite(MultipartFile file, InviteModel invite) {
 		LOGGER.info("Start - addInvite");
 		String fileName = file.getOriginalFilename();
@@ -45,6 +59,11 @@ public class InviteService {
 		return status;
 	}
 
+	/**
+	 * Gets the all invites.
+	 *
+	 * @return the all invites
+	 */
 	public List<InviteModel> getAllInvites() {
 		LOGGER.info("Inside getAllInvites");
 		return this.inviteDao.getAllInvites();
