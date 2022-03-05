@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.party.partymanagement.util.Util;
 import com.party.partymangement.mapper.ScheduleMapper;
 import com.party.partymangement.mapper.VenueScheduleMapper;
 import com.party.partymangement.model.ScheduleModel;
 import com.party.partymangement.model.VenueScheduleModel;
+import com.party.partymangement.util.Util;
 
 // TODO: Auto-generated Javadoc
 /**

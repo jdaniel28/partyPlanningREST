@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.party.partymanagement.util.Util;
 import com.party.partymangement.mapper.BookingMapper;
 import com.party.partymangement.mapper.BookingScheduleMapper;
 import com.party.partymangement.model.BookingModel;
 import com.party.partymangement.model.BookingScheduleModel;
 import com.party.partymangement.model.ScheduleModel;
+import com.party.partymangement.util.Util;
 
 // TODO: Auto-generated Javadoc
 /**

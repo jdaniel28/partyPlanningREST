@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.party.partymanagement.util.Util;
 import com.party.partymangement.mapper.InviteeDetailsMapper;
 import com.party.partymangement.mapper.InviteeMapper;
 import com.party.partymangement.model.InviteeDetailsModel;
 import com.party.partymangement.model.InviteeModel;
+import com.party.partymangement.util.Util;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.party.partymanagement.util.Util;
 import com.party.partymangement.dao.VenueDao;
 import com.party.partymangement.model.VenueModel;
+import com.party.partymangement.util.Util;
 
 // TODO: Auto-generated Javadoc
 /**
